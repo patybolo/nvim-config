@@ -1,37 +1,47 @@
-### 🌙 Nvim Config files (v0.10+)
-# A lightweight, portable, and aesthetic Neovim setup built with Lua and Lazy.nvim. Designed to be cloned and deployed in seconds on any environment.
+# Neovim Config (v0.11+)
 
-## ✨ Features
-Theme: GitHub Theme (Dark/Light variants).
+A lightweight, portable, and minimalist Neovim setup built with **Lua** and **Lazy.nvim**. Clone and go
 
-Package Manager: Lazy.nvim (with auto-bootstrapping).
+---
 
-LSP & Tooling: Mason.nvim for seamless Language Server management.
+## Features
+* **Theme:** [GitHub Theme](https://github.com/projekt0n/github-nvim-theme) (Dark/Light variants).
+* **Package Manager:** [Lazy.nvim](https://github.com/folke/lazy.nvim) (with auto-bootstrapping).
+* **LSP & Tooling:** [Mason.nvim](https://github.com/williamboman/mason.nvim) for seamless Language Server management.
+* **Syntax Highlighting:** [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter) for advanced code coloring.
 
-Syntax Highlighting: Treesitter for advanced code coloring.
+---
 
-Portability: Consistent "Block" cursor across all modes and cross-platform paths.
+## Quick Start
 
-## 🚀 Quick Start
-1. Prerequisites - Before cloning, ensure you have the following installed:
+### 1. Prerequisites
+Before cloning, ensure you have the following installed:
+* **Git**
+* **Neovim v0.10.0+** (v0.11.x Nightly/Stable recommended).
+* A **[Nerd Font](https://www.nerdfonts.com/)** (e.g., JetBrainsMono Nerd Font) for icons.
 
--	Git
--	Neovim v0.10.0+ (Latest stable recommended).
--	A nerd font
+### 2. Installation
 
-2. Installation
-
+#### Linux / macOS
+```bash
 # Backup your current config if it exists
 mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null
 
-# Clone this repository on Linux
-git clone https://github.com/patybolo/nvim-config.git ~/.config/nvim 
+# Clone this repository
+git clone [https://github.com/patybolo/nvim-config.git](https://github.com/patybolo/nvim-config.git) ~/.config/nvim
+```
+#### Windows
+```
+# Backup current config
+Rename-Item -Path "$HOME\AppData\Local\nvim" -NewName "nvim.bak" -ErrorAction SilentlyContinue
 
-# Clone this repository on Windows
-git clone https://github.com/patybolo/nvim-config.git $HOME\AppData\Local\nvim
+# Clone this repository
+git clone [https://github.com/patybolo/nvim-config.git](https://github.com/patybolo/nvim-config.git) $HOME\AppData\Local\nvim
 
-3. To ensure LSP and Treesitter can compile correctly, install these essential dependencies:
+```
 
+### 3. To compile LSP and Treesitter correctly, install the dependencies:
+```
 # For Debian/Ubuntu
 sudo apt update && sudo apt install -y make gcc ripgrep xclip git unzip curl
 
@@ -40,8 +50,8 @@ sudo pacman -S make gcc ripgrep xclip git unzip curl
 
 # For Windows
 scoop install neovim gcc ripgrep
-
-## 🛠️ Managing LSPs (Mason)
+```
+## Managing LSPs (Mason)
 This setup uses Mason to manage servers without cluttering your Git repo:
 
 - Open Neovim and run :Mason.
