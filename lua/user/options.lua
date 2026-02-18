@@ -14,3 +14,12 @@ opt.relativenumber = true -- Números relativos
 opt.shiftwidth = 8        -- Tamaño de la indentación
 opt.tabstop = 8
 opt.expandtab = true      -- Espacios en lugar de tabs
+
+vim.diagnostic.config({
+  virtual_text = true, -- Esto muestra el error en texto tenue a la derecha
+  signs = true,
+  update_in_insert = false, -- No molestar mientras escribes
+  underline = true,
+  severity_sort = true,
+  float = { border = "rounded" },
+})
