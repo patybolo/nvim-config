@@ -5,10 +5,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- 2. CONFIGURACIÓN
+-- 2. CONFIG
 require("lazy").setup({
-
-  -- TEMA GITHUB
   { 
     'projekt0n/github-nvim-theme',
     lazy = false,
@@ -19,7 +17,7 @@ require("lazy").setup({
     end,
   },
 
-  -- LSP: Mason + Mason-LSPConfig + Nvim-LSPConfig
+  -- LSP + MASON
   {
     "williamboman/mason.nvim",
     dependencies = {
@@ -27,32 +25,20 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
     },
     config = function()
-      -- 1. Setup de Mason (el instalador)
       require("mason").setup()
-
-      -- 2. Setup de Mason-LSPConfig (el puente)
-      local mlp = require("mason-lspconfig") -- Guardamos el módulo en 'mlp'
+      local mlp = require("mason-lspconfig")
       mlp.setup({
         ensure_installed = { "lua_ls" },
       })
 
-      -- esto por alguna razon no funciona
-      --mlp.setup_handlers({
-        --function(server_name)
-          --require("lspconfig")[server_name].setup({})
-        --end,
-      --})
     end
   },
 
-  -- TREESITTER (Versión corregida para el nuevo sistema)
+  -- TREESITTER
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
-      -- LA SOLUCIÓN AL ERROR: 
-      -- Ya no se usa require('nvim-treesitter.configs').setup
-      -- Ahora se usa directamente el setup del plugin principal
       require("nvim-treesitter").setup({
         ensure_installed = { "lua", "vim", "vimdoc", "markdown" },
         highlight = { 
@@ -72,6 +58,17 @@ require("lazy").setup({
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+    end
+  },
+    -- AUTOPAIRS
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({
+        check_ts = true,
+        disable_filetype = { "TelescopePrompt" },
+      })
     end
   },
 })
