@@ -1,11 +1,9 @@
--- 1. BOOTSTRAP
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- 2. CONFIG
 require("lazy").setup({
   {
     "blazkowolf/gruber-darker.nvim",
@@ -14,21 +12,62 @@ require("lazy").setup({
         vim.cmd.colorscheme("gruber-darker")
     end,
   },
-
-  -- LSP + MASON
   {
-    "williamboman/mason.nvim",
+    "hrsh7th/nvim-cmp",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+    },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        snippet = {
+          expand = function(args) require("luasnip").lsp_expand(args.body) end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'buffer' },
+          { name = 'path' },
+        })
+      })
+    end
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { 
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "hrsh7th/cmp-nvim-lsp" 
     },
     config = function()
       require("mason").setup()
-      local mlp = require("mason-lspconfig")
-      mlp.setup({
-        ensure_installed = { "lua_ls" },
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls", "clangd" },
       })
 
+      local caps = require('cmp_nvim_lsp').default_capabilities()
+      vim.lsp.config('lua_ls', {
+        capabilities = caps,
+        settings = { Lua = { diagnostics = { globals = {'vim'} } } }
+      })
+
+      vim.lsp.config('clangd', {
+        capabilities = caps,
+        cmd = {
+          "clangd",
+          "--query-driver=/usr/bin/gcc,/usr/bin/g++",
+          "--background-index",
+          "--header-insertion=never",
+        }
+      })
     end
   },
 
@@ -38,11 +77,8 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({
-        ensure_installed = { "lua", "vim", "vimdoc", "markdown" },
-        highlight = { 
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
+        ensure_installed = { "lua", "c", "cpp", "vim", "vimdoc", "markdown" },
+        highlight = { enable = true },
         indent = { enable = true },
       })
     end
@@ -58,15 +94,13 @@ require("lazy").setup({
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
     end
   },
-    -- AUTOPAIRS
+
+  -- AUTOPAIRS
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = function()
-      require("nvim-autopairs").setup({
-        check_ts = true,
-        disable_filetype = { "TelescopePrompt" },
-      })
+      require("nvim-autopairs").setup({ check_ts = true })
     end
   },
 })
