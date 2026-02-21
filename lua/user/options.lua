@@ -6,8 +6,8 @@ opt.background = "dark"
 
 opt.number = true
 opt.relativenumber = true
-opt.shiftwidth = 8
-opt.tabstop = 8
+opt.shiftwidth = 4
+opt.tabstop = 4
 opt.expandtab = true
 
 vim.diagnostic.config({
