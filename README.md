@@ -28,7 +28,7 @@ Before cloning, ensure you have the following installed:
 mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null
 
 # Clone this repository
-git clone [https://github.com/patybolo/nvim-config.git](https://github.com/patybolo/nvim-config.git) ~/.config/nvim
+git clone https://github.com/patybolo/nvim-config.git ~/.config/nvim
 ```
 #### Windows
 ```
@@ -36,7 +36,7 @@ git clone [https://github.com/patybolo/nvim-config.git](https://github.com/patyb
 Rename-Item -Path "$HOME\AppData\Local\nvim" -NewName "nvim.bak" -ErrorAction SilentlyContinue
 
 # Clone this repository
-git clone [https://github.com/patybolo/nvim-config.git](https://github.com/patybolo/nvim-config.git) $HOME\AppData\Local\nvim
+git clone https://github.com/patybolo/nvim-config.git $HOME\AppData\Local\nvim
 
 ```
 
